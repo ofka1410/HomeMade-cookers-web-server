@@ -17,7 +17,7 @@ const stripePublishableKey = process.env.STRIPE_PUBLISHABLE_KEY || "pk_test_51JD
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY || "sk_test_51JD9vUKNxjLv3B4peEgU37k1Jmo4Ga7UF4ikLG6kx8fT9WAyP6gFAKxz49lbo4xV8cvQ6GefpbjcOOmQhn6hjOr200FKalDdUU";
 const stripeWebhookSecret = process.env.STRIPE_WEBHOOK_SECRET || "";
 
-
+console.log(stripePublishableKey)
 router.route("/").get((req, res) => {
   res.send({ "Welome to": "Just that" });
 });
