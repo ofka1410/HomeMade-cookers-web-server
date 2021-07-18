@@ -10,6 +10,8 @@ exports.report = async(req,res)=>{
     const orders_collection = db.collection('orders')
     let cooker_orders=[]
     let orders_current_month=[]
+    let counter_meals_month=0
+    let counter_allMeals=0
     if(month !=="" && month.length>1){
     let monthName = month;
     let monthNumber = new Date(monthName + " 1").getMonth() + 1;
@@ -31,16 +33,24 @@ exports.report = async(req,res)=>{
                          let date=orders[i].date.split('.')
                           if( date[1]== month){
                             orders_current_month.push({...orders[i].items[j],date:orders[i].date})
+                            counter_meals_month+=1
                         }
                         }
+                        cooker_orders.push({...orders[i].items[j],date:orders[i].date})
+                        counter_allMeals+=1
                         }
                     }
                     let month_profit= orders_current_month.reduce(function(month_profit, current) {
                         return month_profit + parseInt(current.price);
                       }, 0); 
                       month_profit += '₪'
+
+                      let total_profit= cooker_orders.reduce(function(total_profit, current) {
+                        return total_profit + parseInt(current.price);
+                      }, 0); 
+                      total_profit += '₪'
             
-                      res.send({status:'success',orders_current_month,month_profit, month:req.body.month})
+                      res.send({status:'success',orders_current_month,month_profit, month:req.body.month,total_profit,counter_meals_month,counter_allMeals})
             }
             //default report
             else{
@@ -51,9 +61,10 @@ exports.report = async(req,res)=>{
                          
                          if( date[1]== current_month+1){
                              orders_current_month.push({...orders[i].items[j],date:orders[i].date})
+                             counter_meals_month+=1
                          }
                          cooker_orders.push({...orders[i].items[j],date:orders[i].date})
-       
+                         counter_allMeals+=1
                         }
                     }  
                 }
@@ -71,7 +82,7 @@ exports.report = async(req,res)=>{
                month_profit += '₪'
      
                res.send({status:'success',
-                all_orders:cooker_orders,total_profit,orders_current_month,month_profit})
+                all_orders:cooker_orders,total_profit,orders_current_month,month_profit,counter_meals_month,counter_allMeals})
             }
            
     }
