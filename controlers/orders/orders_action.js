@@ -12,17 +12,20 @@ exports.orders = async(req,res)=>{
     const today = new Date(timeElapsed);
     try{
         let snapshot = await order.add({
-            full_name:data.full_name,
-            city:data.city,
+            full_name:data.full_name ||"",
+            city:data.city ||"",
             address:data.address,
-            phone_number:data.phone_number,
-            user_id:data.user_id,
-            arrival_time:data.arrival_time,
+            phone_number:data.phone_number ||"",
+            user_id:data.user_id ||"",
+            arrival_time:data.arrival_time ||"",
             created_at:today.toLocaleDateString(),
-            tip:data.tip,
-            total_price:data.total_price,
+            tip:data.tip||"",
+            image:data.image||"",
+            total_price:data.total_price||"",
             items:data.items||[],
-            comment:data.comment
+            comment:data.comment ||"",
+            delivery_fee:15,
+            sent_cooker:false
             })
             let all_resevaition=`  מזל טוב, התקבלה הזמנה חדשה! \n ההזמנה מופיעה במלואה באפליקציה וחובה להכנס ולהזין זמן משלוח !.\n\n` 
             all_resevaition+='פרטי משלוח:\n'
@@ -38,6 +41,8 @@ exports.orders = async(req,res)=>{
             snapshot.forEach(doc=>{
               cookers.push({...doc.data(),id:doc.id})
             })
+            
+          
             
           for(let i=0;i<cookers.length;i++){
             let total_price=0
@@ -65,18 +70,18 @@ exports.orders = async(req,res)=>{
               }
            }
 
-        await client.messages.create({
-            body:all_resevaition,
-            from: '(952) 260-5618',
-            to:'+972507915557'
-              })
-        .then(message => console.log(message.sid));
-         await client.messages.create({
-          body:all_resevaition,
-          from: '(952) 260-5618',
-          to:'+972509902762'
-            })
-       .then(message => console.log(message.sid));
+      //   await client.messages.create({
+      //       body:all_resevaition,
+      //       from: '(952) 260-5618',
+      //       to:'+972507915557'
+      //         })
+      //   .then(message => console.log(message.sid));
+      //    await client.messages.create({
+      //     body:all_resevaition,
+      //     from: '(952) 260-5618',
+      //     to:'+972509902762'
+      //       })
+      //  .then(message => console.log(message.sid));
         res.send({cookers,all_resevaition,items:data.items})
       
     }
