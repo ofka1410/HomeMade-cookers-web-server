@@ -50,7 +50,7 @@ exports.orders = async(req,res)=>{
               
               for(let j=0;j<data.items.length;j++){
 
-                if(data.items[j].cooker === cookers[i].id ){
+                if(data.items[j].cooker_id === cookers[i].id ){
                 uniqe_msg += `${[j+1]}.\nשם המנה: ${data.items[j].name}.\nכמות: ${data.items[j].amount}. \nמחיר : ${data.items[j].price}₪.\n\n`
                 total_price+=data.items[j].price
                }
@@ -70,18 +70,18 @@ exports.orders = async(req,res)=>{
               }
            }
 
-      //   await client.messages.create({
-      //       body:all_resevaition,
-      //       from: '(952) 260-5618',
-      //       to:'+972507915557'
-      //         })
-      //   .then(message => console.log(message.sid));
-      //    await client.messages.create({
-      //     body:all_resevaition,
-      //     from: '(952) 260-5618',
-      //     to:'+972509902762'
-      //       })
-      //  .then(message => console.log(message.sid));
+        await client.messages.create({
+            body:all_resevaition,
+            from: '(952) 260-5618',
+            to:'+972507915557'
+              })
+        .then(message => console.log(message.sid));
+         await client.messages.create({
+          body:all_resevaition,
+          from: '(952) 260-5618',
+          to:'+972509902762'
+            })
+       .then(message => console.log(message.sid));
         res.send({cookers,all_resevaition,items:data.items})
       
     }
@@ -93,52 +93,3 @@ exports.orders = async(req,res)=>{
 }
 
 
-// {
-//   "full_name":"shaked",
-//   "city":"har adar",
-//   "address":"mevo hacramin 9",
-//   "phone_number":"+972509128880",
-//   "user_id":"03tNhutrApONObJDvC62hD6iGEG2",
-//   "arrival_time":"13:00",
-//   "tip":10,
-//   "total_price":225,
-//   "comment":"אני רגיש לפטורזיליהת ובלי זיתים על הפיצה, ובלי מיונז",
-//   "items":[
-//       {
-//    "cooker":"ZVIkBOEvbarGHH1jG7dx",
-//       "name":"פאד-תאי טבעוני",
-//       "amount":2,
-//       "price":76
-//       },
-//        {
-//    "cooker":"ZVIkBOEvbarGHH1jG7dx",
-//       "name":"ביף בורגיניון",
-//       "amount":1,
-//       "price":68
-//       },
-//          {
-//    "cooker":"8W6svnCwNobtxstnJxvX",
-//       "name":"סלט קפרזה",
-//       "amount":2,
-//       "price":84
-//       },
-//             {
-//    "cooker":"8W6svnCwNobtxstnJxvX",
-//       "name":"פיצה זיתי קלמטה",
-//       "amount":2,
-//       "price":104
-//       },
-//                  {
-//    "cooker":"5YAYYXpDtMolimZLxvl5",
-//       "name":"אינסייד-אאוט טונה",
-//       "amount":1,
-//       "price":35
-//       },
-//        {
-//    "cooker":"5YAYYXpDtMolimZLxvl5",
-//       "name":"אינסייד-אאוט טונה",
-//       "amount":1,
-//       "price":35
-//       }
-//       ]
-// }
