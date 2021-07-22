@@ -7,6 +7,7 @@ exports.every_month = async(req,res)=>{
     const id= req.params.id
      let orders=[]
      let all_profits=[]
+    
      let all_month=[
          {
             month:1,//"January",
@@ -66,6 +67,7 @@ exports.every_month = async(req,res)=>{
           for(let i=0;i<orders.length;i++){
             for(let j=0;j<orders[i].items.length;j++){
                     if(orders[i].items[j].cooker === id){
+                       
                         let date=orders[i].date.split('.')
                         for(let z=0;z<all_month.length;z++){
                         if( date[1] == all_month[z].month){

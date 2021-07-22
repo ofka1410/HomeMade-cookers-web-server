@@ -5,31 +5,34 @@ const authToken = process.env.AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken);
 
 exports.orders = async(req,res)=>{
-    const data= req.body 
-    const order = db.collection('orders')
-    db.collection('cookers')
-    const timeElapsed = Date.now();
-    const today = new Date(timeElapsed);
-    try{
-        let snapshot = await order.add({
-            full_name:data.full_name ||"",
-            city:data.city ||"",
-            address:data.address,
-            phone_number:data.phone_number ||"",
-            user_id:data.user_id ||"",
-            arrival_time:data.arrival_time ||"",
-            created_at:today.toLocaleDateString(),
-            tip:data.tip||"",
-            image:data.image||"",
-            total_price:data.total_price||"",
-            items:data.items||[],
-            comment:data.comment ||"",
-            delivery_fee:15,
-            sent_cooker:false
-            })
+  const check=req.body
+  var orders = [];
+  let data;
+
+    
+    
+      if(check){
+        let snapshot = await db.collection("orders").add({
+          full_name:check.full_name ||"",
+          city:check.city ||"",
+          address:check.address,
+          phone_number:check.phone_number ||"",
+          user_id:check.user_id ||"",
+          arrival_time:check.arrival_time ||"",
+          created_at:"21.7.2021",
+          tip:check.tip||"",
+          image:check.image||"",
+          total_price:check.total_price||"",
+          items:check.items||[],
+          comment:check.comment ||"",
+          delivery_fee:15,
+          sent_cooker:false
+          })
+      }
+          try{
             let all_resevaition=`  מזל טוב, התקבלה הזמנה חדשה! \n ההזמנה מופיעה במלואה באפליקציה וחובה להכנס ולהזין זמן משלוח !.\n\n` 
             all_resevaition+='פרטי משלוח:\n'
-            all_resevaition+=`שם:${data.full_name}.\nעיר:${data.city}.\nרחוב:${data.address}.\nמספר טלפון:${data.phone_number}`
+            all_resevaition+=`שם:${data.full_name ||"לא נשלח שם"}.\nעיר:${data.city ||"לא צוין עיר"}.\nרחוב:${data.address}.\nמספר טלפון:${data.phone||"לא נשלח מספר"}`
             for(let i=0;i<data.items.length;i++){
                 all_resevaition= all_resevaition =all_resevaition + `${[i+1]}.\nשם המנה: ${data.items[i].name}. כמות: ${data.items[i].amount}.\nמחיר סופי: ${data.items[i].price}₪.\n`
                  }
@@ -55,15 +58,15 @@ exports.orders = async(req,res)=>{
                 total_price+=data.items[j].price
                }
               }
-              let id=data.items.filter(el=>el.cooker === cookers[i].id)
+              let id=data.items.filter(el=>el.cooker_id === cookers[i].id)
               if(id.length>0){
                 uniqe_msg+=`הערות: ${data.comment ||"אין הערות"}.\n\n`
                 uniqe_msg+=`שעת משלוח: ${data.arrival_time}.\n`
                 uniqe_msg += `מחיר הזמנה : ${total_price}₪.\n`
                 await client.messages.create({
                   body:uniqe_msg,
-                  from: '(952) 260-5618',
-                  to:cookers[i].phone_number
+                  from:'(952) 260-5618',
+                  to:"+972509128880"//cookers[i].phone_number
                     })
                .then(message => console.log(message.sid));
               
@@ -73,13 +76,13 @@ exports.orders = async(req,res)=>{
         await client.messages.create({
             body:all_resevaition,
             from: '(952) 260-5618',
-            to:'+972507915557'
+            to: "+972509128880"//'+972507915557'
               })
         .then(message => console.log(message.sid));
          await client.messages.create({
           body:all_resevaition,
           from: '(952) 260-5618',
-          to:'+972509902762'
+          to:"+972509128880"//'+972509902762'
             })
        .then(message => console.log(message.sid));
         res.send({cookers,all_resevaition,items:data.items})
