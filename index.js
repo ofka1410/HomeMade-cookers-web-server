@@ -10,9 +10,9 @@ app.use(express.urlencoded({
 }));
 app.use(express.json());
 app.use(express.static('public/build'))
-app.get('/',(req,res)=>{
-res.sendFile(path.join(__dirname,"public/build","index.html"))
-})
+// app.get('/',(req,res)=>{
+// res.sendFile(path.join(__dirname,"public/build","index.html"))
+// })
 
 //all routes requiers
 const orders_route = require('./routes/orders_route')
