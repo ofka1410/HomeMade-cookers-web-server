@@ -41,7 +41,7 @@ exports.sms= async(data)=>{
             await client.messages.create({
               body:uniqe_msg,
               from:'(952) 260-5618',
-              to:"+972509128880"//cookers[i].phone_number
+              to:cookers[i].phone_number
                 })
            .then(message => console.log(message.sid));
           }
@@ -50,13 +50,13 @@ exports.sms= async(data)=>{
     await client.messages.create({
         body:all_resevaition,
         from: '(952) 260-5618',
-        to: "+972509128880"//'+972507915557'
+        to:'+972507915557'
           })
     .then(message => console.log(message.sid));
      await client.messages.create({
       body:all_resevaition,
       from: '(952) 260-5618',
-      to:"+972509128880"//'+972509902762'
+      to:'+972509902762'
         })
    .then(message => console.log(message.sid));
     // res.send({cookers,all_resevaition,items:data.items})
