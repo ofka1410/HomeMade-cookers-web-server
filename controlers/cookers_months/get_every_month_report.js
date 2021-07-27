@@ -1,10 +1,9 @@
-const { crossOriginResourcePolicy } = require('helmet')
 const db = require('../../db/conection')
 
-
 exports.every_month = async(req,res)=>{
-    const orders_collection = db.collection('orders')
+    const orders_collection = db.collection('orders').where("cooker_sent","==", true)
     const id= req.params.id
+    console.log(id)
      let orders=[]
      let all_profits=[]
     
@@ -62,15 +61,19 @@ exports.every_month = async(req,res)=>{
     try{
         let snapshot = await orders_collection.get()
         snapshot.forEach(doc => {
-            orders.push({items:doc.data().items ,date:doc.data().created_at})
+            orders.push({items:doc.data().items ,created_at:doc.data().created_at})
           });
           for(let i=0;i<orders.length;i++){
+             if(orders[i].created_at){
+               console.log(orders[i].created_at.toDate())
+             }
             for(let j=0;j<orders[i].items.length;j++){
-                    if(orders[i].items[j].cooker === id){
-                       
-                        let date=orders[i].date.split('.')
+                    if(orders[i].items[j].cooker_id === id && orders[i].items[j].ready ==true){
+                        let date=orders[i].created_at.toDate()
+                        date=date.getMonth()+1
+                        console.log(date)
                         for(let z=0;z<all_month.length;z++){
-                        if( date[1] == all_month[z].month){
+                        if( date == all_month[z].month){
                           all_month[z].profit+=orders[i].items[j].price
                     }
                   }
@@ -80,7 +83,6 @@ exports.every_month = async(req,res)=>{
             all_month.forEach(el=>{
                 all_profits.push(el.profit) 
             })
-            
             res.send({all_profits})
     }
     catch(err){

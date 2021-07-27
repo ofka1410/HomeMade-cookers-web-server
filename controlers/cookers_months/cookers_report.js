@@ -3,6 +3,7 @@ const db = require('../../db/conection')
 exports.report = async(req,res)=>{
     //variabels
     const id= req.body.id 
+    console.log(id)
     let month= req.body.month
     let orders=[]
     var date  = new Date();
@@ -21,23 +22,25 @@ exports.report = async(req,res)=>{
         month=''
     }
     try{
-        let snapshot = await orders_collection.get()
+        let snapshot = await orders_collection.where("cooker_sent","==", true).get()
         snapshot.forEach(doc => {
-            orders.push({items:doc.data().items ,date:doc.data().created_at})
+            orders.push({items:doc.data().items ,created_at:doc.data().created_at})
           });
           //check if admin search for specific month report
             if(month!==''){
                 for(let i=0;i<orders.length;i++){
                     for(let j=0;j<orders[i].items.length;j++){
-                     if(orders[i].items[j].cooker === id){
-                         let date=orders[i].date.split('.')
-                          if( date[1]== month){
-                            orders_current_month.push({...orders[i].items[j],date:orders[i].date})
-                            counter_meals_month+=1
+                     if(orders[i].items[j].cooker_id === id &&orders[i].items[j].ready ==true ){
+                        let date=orders[i].created_at.toDate()
+                        date=date.getMonth()+1
+                          if(date== month){
+                                orders_current_month.push({...orders[i].items[j],date:orders[i].created_at.toDate()})
+                                counter_meals_month+=1
                         }
-                        }
-                        cooker_orders.push({...orders[i].items[j],date:orders[i].date})
+                        cooker_orders.push({...orders[i].items[j],date:orders[i].created_at})
                         counter_allMeals+=1
+                        }
+                        
                         }
                     }
                     let month_profit= orders_current_month.reduce(function(month_profit, current) {
@@ -56,14 +59,15 @@ exports.report = async(req,res)=>{
             else{
                 for(let i=0;i<orders.length;i++){
                     for(let j=0;j<orders[i].items.length;j++){
-                     if(orders[i].items[j].cooker === id){
-                         let date=orders[i].date.split('.')
-                         
+                        
+                     if(orders[i].items[j].cooker_id === id &&orders[i].items[j].ready ==true){
+                        let date=orders[i].created_at.toDate()
+                        date=date.getMonth()+1
                          if( date[1]== current_month+1){
                              orders_current_month.push({...orders[i].items[j],date:orders[i].date})
                              counter_meals_month+=1
                          }
-                         cooker_orders.push({...orders[i].items[j],date:orders[i].date})
+                         cooker_orders.push({...orders[i].items[j],date:orders[i].created_at})
                          counter_allMeals+=1
                         }
                     }  
@@ -83,8 +87,7 @@ exports.report = async(req,res)=>{
      
                res.send({status:'success',
                 all_orders:cooker_orders,total_profit,orders_current_month,month_profit,counter_meals_month,counter_allMeals})
-            }
-           
+            }    
     }
     catch(err){
         console.log(err)

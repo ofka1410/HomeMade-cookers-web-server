@@ -8,7 +8,8 @@ exports.update_cooker = async(req,res)=>{
         let snapshot = await cookers.doc(data.id).update({
             address:data.address,
             phone_number:data.phone_number,
-            Email:data.email 
+            Email:data.email,
+            about:data.story 
         })
         
 

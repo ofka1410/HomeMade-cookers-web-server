@@ -7,9 +7,10 @@ exports.all_reviews = async(req,res)=>{
 
     let meals=[]
     try{
-        let snapshot = await db.collection('reviews_testing').get()
+        let snapshot = await db.collection('reviews').get()
         snapshot.forEach(doc => {
-            all_review.push({...doc.data(),id:doc.id})
+            date=doc.data().created_at.toDate()
+            all_review.push({...doc.data(),id:doc.id,date:date })
         });
     
         snapshot = await db.collection('meals').where("cooker_id","==",id).get()
@@ -26,13 +27,7 @@ exports.all_reviews = async(req,res)=>{
             }
         }    
         })
-        // reviews.forEach(item=>{
-        //     for(let i=0;i<users.length;i++){
-        //         if(item.user_id == users[i].id){
-        //             item.user_name=
-        //         }
-        //     }
-        // })
+      
     res.send({status:'success',meals,cooker_reviews:reviews})
     }
     catch(err){
