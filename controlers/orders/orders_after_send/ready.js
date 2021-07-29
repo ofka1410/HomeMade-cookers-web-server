@@ -1,5 +1,5 @@
 const db = require('../../../db/conection')
-
+const admin = require('../../../admin_firebase')
 exports.ready = async(req,res)=>{
     const id= req.body.id
     const token = req.body.token

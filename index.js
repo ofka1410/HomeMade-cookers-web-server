@@ -10,9 +10,9 @@ app.use(express.urlencoded({
 }));
 app.use(express.json());
 app.use(express.static('public/build'))
-// app.get('/',(req,res)=>{
-// res.sendFile(path.join(__dirname,"public/build","index.html"))
-// })
+app.get('/',(req,res)=>{
+res.sendFile(path.join(__dirname,"public/build","index.html"))
+})
 
 //all routes requiers
 const orders_route = require('./routes/orders_route')
@@ -22,8 +22,10 @@ const cooker_report = require('./routes/cookers_report_route')
 const dishes_route = require('./routes/cookers_manage/Meals_route')
 const pamynet_route = require('./routes/payment_route')
 const review = require('./routes/reviews/reviewRoute')
-//only for now, delete it later
+const deliveries = require('./routes/delivery_route')
 const changes_delete = require('./routes/develop_changes')
+const balance = require('./routes/balance_route')
+
 //middlewares
 app.use('/orders',orders_route)
 app.use('/meals-admin',manage_meal_route)
@@ -33,18 +35,22 @@ app.use('/dishes',dishes_route)
 app.use('/payments',pamynet_route)
 app.use('/reviews',review)
 app.use('/orders/ready',changes_delete)
+app.use('/orders/delivery',deliveries)
+app.use('/report/balance',balance)
 
-const sms= require('./sms')
-db.collection("orders").where("cooker_sent", "==", false)
-    .onSnapshot((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-            console.log(doc.data())
-            if(doc.data()){
-             data={...doc.data(),id:doc.id}
-             sms.sms(data)
-            }
-        });
-    });
+
+//const sms= require('./sms')
+// db.collection("orders").where("cooker_sent", "==", false)
+//     .onSnapshot((querySnapshot) => {
+//         querySnapshot.forEach((doc) => {
+//             console.log(doc.data())
+//             if(doc.data()){
+//              data={...doc.data(),id:doc.id}
+//              sms.sms(data)
+//             console.log('new order, check with rom that message has been recived')
+//             }
+//         });
+//     });
 
 app.listen(PORT,()=>{
     console.log('listening on port: ' + PORT);

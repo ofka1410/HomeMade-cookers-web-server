@@ -71,7 +71,7 @@ exports.every_month = async(req,res)=>{
                     if(orders[i].items[j].cooker_id === id && orders[i].items[j].ready ==true){
                         let date=orders[i].created_at.toDate()
                         date=date.getMonth()+1
-                        console.log(date)
+                        
                         for(let z=0;z<all_month.length;z++){
                         if( date == all_month[z].month){
                           all_month[z].profit+=orders[i].items[j].price

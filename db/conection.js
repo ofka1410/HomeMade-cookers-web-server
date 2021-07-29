@@ -1,5 +1,8 @@
 const firebase = require("firebase");
 require("firebase/firestore");
+require("firebase/auth") ;
+require("firebase/firestore") ;
+require("firebase/storage");
 require('dotenv').config()
 //conection to dataBase 
 var firebaseConfig = {
@@ -12,6 +15,7 @@ var firebaseConfig = {
   appId:process.env.APP_ID,
   measurementId: process.env.MEASUREMENT_ID
 };
+
 firebase.initializeApp(firebaseConfig);
  const db = firebase.firestore();
  module.exports= db

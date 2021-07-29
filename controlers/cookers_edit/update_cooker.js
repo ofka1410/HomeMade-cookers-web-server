@@ -1,5 +1,5 @@
 const db = require('../../db/conection')
-
+const admin = require('../../admin_firebase')
 exports.update_cooker = async(req,res)=>{
     const cookers = db.collection('cookers')
     const data= req.body

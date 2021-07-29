@@ -1,5 +1,5 @@
 const db = require('../../db/conection')
-
+const admin = require('../../admin_firebase')
 exports.change_dishes = async(req,res)=>{
 const id = req.body.id
 const dishes = db.collection('meals')

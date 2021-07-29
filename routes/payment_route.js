@@ -3,15 +3,9 @@ env.config({ path: "../.env" });
 const bodyParser = require("body-parser");
 const express = require("express");
 const Stripe = require("stripe");
-const  admin = require('firebase-admin');
+const admin = require('../admin_firebase')
 const router = express.Router();
 
-var serviceAccount = require("../data-base-food-ordering-app-firebase-adminsdk-ooji4-d4f9914dcd.json");
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://data-base-food-ordering-app-default-rtdb.firebaseio.com"
-});
 
 const stripePublishableKey = process.env.STRIPE_PUBLISHABLE_KEY || "pk_test_51JD9vUKNxjLv3B4pRJDHVewbsn0TYcvuIgH8sz3tCNgwhMzbMORQQ4y7LsvOrqtSDAJJqOGtPs3luMqQs5FIEaLi00I5MfaaNB";
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY || "sk_test_51JD9vUKNxjLv3B4peEgU37k1Jmo4Ga7UF4ikLG6kx8fT9WAyP6gFAKxz49lbo4xV8cvQ6GefpbjcOOmQhn6hjOr200FKalDdUU";
@@ -137,6 +131,7 @@ router.route("/create-payment-intent").post(async (req, res) => {
   try {
     const paymentIntent = await stripe.paymentIntents.create(params);
     // Send publishable key and PaymentIntent client_secret to client.
+
     res.send({
       clientSecret: paymentIntent.client_secret,
       status: paymentIntent.status
