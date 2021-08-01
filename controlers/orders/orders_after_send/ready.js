@@ -3,14 +3,15 @@ const admin = require('../../../admin_firebase')
 exports.ready = async(req,res)=>{
     const id= req.body.id
     const token = req.body.token
-    let full_order
+    let full_order;
     try{
         let snapshot = await db.collection('orders').doc(id).get()
-      
+        console.log(snapshot.id)
         full_order={...snapshot.data(),id:snapshot.id}
         full_order.items.forEach(el=>{
+            console.log(token)
           if(el.cooker_id == token){
-              el.ready= true;
+              el.ready=true;
           }
         })
          snapshot = await db.collection('orders').doc(id).update({
