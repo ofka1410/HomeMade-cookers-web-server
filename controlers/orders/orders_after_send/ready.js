@@ -6,7 +6,7 @@ exports.ready = async(req,res)=>{
     let full_order
     try{
         let snapshot = await db.collection('orders').doc(id).get()
-     
+      
         full_order={...snapshot.data(),id:snapshot.id}
         full_order.items.forEach(el=>{
           if(el.cooker_id == token){
@@ -16,7 +16,15 @@ exports.ready = async(req,res)=>{
          snapshot = await db.collection('orders').doc(id).update({
             items:full_order.items
         })
-        res.send({status:"succes no error possibly changed"})
+        .then(() => {
+            console.log("Document successfully written!");
+           return res.send({status:"succes no error possibly changed"})
+        })
+        .catch((error) => {
+            console.error("Error writing document: ", error);
+            return   res.send({status:"failed"})
+        });
+      
         
     }
     catch(err){
