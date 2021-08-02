@@ -10,7 +10,7 @@ exports.balance = async(req,res)=>{
     const idToken = req.body.token;
     const id= req.body.id
     const sum = req.body.sum;
-    const user = await admin.auth().verifyIdToken(idToken);
+    // const user = await admin.auth().verifyIdToken(idToken);
     console.log(email);
     console.log(user.email);
     if (email !== user.email) {

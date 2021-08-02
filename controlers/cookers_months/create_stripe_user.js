@@ -6,11 +6,11 @@ const Stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 const stripeSecretKey = "sk_test_51JD9vUKNxjLv3B4peEgU37k1Jmo4Ga7UF4ikLG6kx8fT9WAyP6gFAKxz49lbo4xV8cvQ6GefpbjcOOmQhn6hjOr200FKalDdUU"//process.env.STRIPE_SECRET_KEY ||;
 // const stripeWebhookSecret = process.env.STRIPE_WEBHOOK_SECRET || "";
 exports.create_card = async(req,res)=>{
-   const card= req.body.details
    const idToken = req.body.id
 const email = req.body.email
-   try{
 
+   try{
+    console.log('startin function')
   const secret_key = stripeSecretKey;
 //   const stripe = new Stripe(secret_key, {
 //     apiVersion: "2020-08-27"
@@ -22,7 +22,11 @@ const email = req.body.email
   let customer = customersWithEmail.data[0]
   if (!customer) {
     customer= await Stripe.customers.create({ email });
+    console.log(customer.id)
   }
+
+  return res.send({customer:customer})
+
   
   const params = {
     amount:500,
