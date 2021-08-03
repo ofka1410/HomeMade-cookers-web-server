@@ -3,8 +3,11 @@ const admin = require('../../admin_firebase')
 exports.change_dishes = async(req,res)=>{
 const id = req.body.id
 const dishes = db.collection('meals')
+const idToken = req.headers.token;
+
 let meals=[]
 try{
+  const user = await admin.auth().verifyIdToken(idToken);
     let snapshot =  dishes.doc(id)
      let doc = await snapshot.get()
      if (!doc.exists) {

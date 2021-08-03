@@ -5,7 +5,10 @@ exports.change_all = async(req,res)=>{
     const available= req.body.available
     let my_meals = []
     let newArr=[]
+    const idToken = req.auth;
+    console.log( req.auth)
     try{
+      const user = await admin.auth().verifyIdToken(idToken);
         let snapshot = await db.collection('meals').where("cooker_id","==",id).get()
         snapshot.forEach(doc => {
             my_meals.push({...doc.data() ,id:doc.id})
@@ -26,8 +29,14 @@ exports.change_all = async(req,res)=>{
           }
            snapshot = await db.collection('meals').where("cooker_id","==",id).get()
           snapshot.forEach(doc => {
-              newArr.push({...doc.data() ,id:doc.id})
-            });
+              if(available=='available' && doc.data().available){
+                newArr.push({...doc.data() ,id:doc.id})
+              }
+              else if(available=='not_available' && !doc.data().available){
+                newArr.push({...doc.data() ,id:doc.id})
+              }
+            })
+            
           res.send({status:'changed',newArr})
          
     }
