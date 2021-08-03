@@ -1,18 +1,14 @@
 const db = require('../../db/conection')
 const admin = require('../../admin_firebase')
-const Transferwise = require('transferwise');
-const TwClient = new Transferwise({
-  apiKey: '01234567-890a-bcde-f012-3456789abcde',
-});
+require('dotenv').config()
 exports.create_card = async(req,res)=>{
-   const idToken = req.body.id
-const email = req.body.email
-
    try{
-
-
-  
-
+ const token= process.env.WISE_TOKEN 
+ console.log(token)
+//    const res = await fetch(`https://api.sandbox.transferwise.tech/v1/profiles \
+//    -H Authorization: Bearer ${token}`)  
+//   const data= await res.json()
+res.send({token:process.env.WISE_TOKEN })
    
 }
    catch(err){
