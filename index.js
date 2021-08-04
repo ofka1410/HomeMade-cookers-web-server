@@ -25,7 +25,7 @@ const review = require('./routes/reviews/reviewRoute')
 const deliveries = require('./routes/delivery_route')
 const changes_delete = require('./routes/develop_changes')
 const balance = require('./routes/balance_route')
-const login = require('./routes/login_route/login_route')
+const dishes= require('./routes/meals_manage/meals_route')
 //middlewares
 app.use('/orders',orders_route)
 app.use('/cookers-admin',manage_cooker_route)
@@ -35,7 +35,8 @@ app.use('/reviews',review)
 app.use('/orders/ready',changes_delete)
 app.use('/orders/delivery',deliveries)
 app.use('/report/balance',balance)
-app.use('/login',login)
+
+app.use('/dishes',dishes)
 
 
 //const sms= require('./sms')
