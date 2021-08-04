@@ -34,7 +34,7 @@ try{
             let date=doc.data().created_at.toDate()
              let x=doc.data().delivery_time
              var theDate = new Date(x * 1000);
-             console.log(theDate)
+            
             all_orders.push({...doc.data(),id:doc.id,date:date,delivery:theDate})
         });
 
