@@ -13,6 +13,7 @@ try{
     let snapshot = await db.collection('orders').where("cooker_sent","==",true).get()
     snapshot.forEach(doc => {
         let date=doc.data().created_at.toDate()
+       
         // date= date.
         preview_orders.push({...doc.data(),id:doc.id,date:date})
     });
@@ -31,7 +32,10 @@ try{
          snapshot = await db.collection('orders').where("cooker_sent","==",true).get()
         snapshot.forEach(doc => {
             let date=doc.data().created_at.toDate()
-            all_orders.push({...doc.data(),id:doc.id,date:date})
+             let x=doc.data().delivery_time
+             var theDate = new Date(x * 1000);
+             console.log(theDate)
+            all_orders.push({...doc.data(),id:doc.id,date:date,delivery:theDate})
         });
 
         all_orders.forEach(el=>{
@@ -42,9 +46,7 @@ try{
                       console.log(!check)
                       if(!check.length){
                         orders_notReady.push(el)
-                      }
-                        
-                      
+                      }     
                 }
             }
         })
