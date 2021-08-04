@@ -7,7 +7,7 @@ exports.delivery = async(req,res)=>{
     let user_id= req.body.user_id
    try{
       
-       console.log(time)
+      
    
        let snapshot= await db.collection('cookers').doc(id).get()
        let cooker = snapshot.data()
