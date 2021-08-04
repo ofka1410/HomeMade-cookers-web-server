@@ -37,13 +37,13 @@ try{
             
             all_orders.push({...doc.data(),id:doc.id,date:date,delivery:theDate})
         });
-
+ 
         all_orders.forEach(el=>{
             for(let i=0;i<el.items.length;i++){
                 if(el.items[i].cooker_id == id && el.items[i].ready == false){
                     el.items= el.items.filter(el=>el.cooker_id == id)
                       let check= orders_notReady.filter(id=>id.id == el.id)
-                      console.log(!check)
+                      console.log(!check && !check.length )
                       if(!check.length){
                         orders_notReady.push(el)
                       }     

@@ -34,7 +34,7 @@ app.use('/payments',pamynet_route)
 app.use('/reviews',review)
 app.use('/orders/ready',changes_delete)
 app.use('/orders/delivery',deliveries)
-app.use('/report/balance',balance)
+app.use('/balance',balance)
 
 app.use('/dishes',dishes)
 
