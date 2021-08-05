@@ -8,15 +8,20 @@ exports.create_card = async(req,res)=>{
     
  const token= process.env.WISE_TOKEN 
  console.log(token)
-  const data=await axios.get('https://api.sandbox.transferwise.tech/v1/profilest', {
+  await axios.get('https://api.sandbox.transferwise.tech/v1/profilest', {
    headers: {
-    "Authorization":token
+    "Authorization":`Barear ${token}`
    }
-})
+}).then((res) => {
+   console.log(res.data)
+ })
+ .catch((error) => {
+   console.error(error)
+ })
 
-console.log(data)
+
    
-res.send({token:data})
+// res.send({token:data})
 
    
 }

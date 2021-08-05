@@ -33,8 +33,7 @@ try{
         snapshot.forEach(doc => {
             let date=doc.data().created_at.toDate()
              let x=doc.data().delivery_time
-             var theDate = new Date(x * 1000);
-            
+             var theDate = new Date(x * 1000)
             all_orders.push({...doc.data(),id:doc.id,date:date,delivery:theDate})
         });
  
@@ -43,7 +42,7 @@ try{
                 if(el.items[i].cooker_id == id && el.items[i].ready == false){
                     el.items= el.items.filter(el=>el.cooker_id == id)
                       let check= orders_notReady.filter(id=>id.id == el.id)
-                      console.log(!check && !check.length )
+                      
                       if(!check.length){
                         orders_notReady.push(el)
                       }     
