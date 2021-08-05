@@ -24,10 +24,8 @@ try{
                  preview_orders[i].items= preview_orders[i].items.filter(el=>el.cooker_id == id)
                  my_orders.push(preview_orders[i])
                         
-                }
-                       
+                }        
              }
-           
         }
          snapshot = await db.collection('orders').where("cooker_sent","==",true).get()
         snapshot.forEach(doc => {
