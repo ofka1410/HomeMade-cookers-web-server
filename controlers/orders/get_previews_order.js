@@ -36,19 +36,30 @@ try{
              var theDate = new Date(x * 1000)
             all_orders.push({...doc.data(),id:doc.id,date:date,delivery:theDate})
         });
- 
+
         all_orders.forEach(el=>{
             for(let i=0;i<el.items.length;i++){
                 if(el.items[i].cooker_id == id && el.items[i].ready == false){
                     el.items= el.items.filter(el=>el.cooker_id == id)
-                      let check= orders_notReady.filter(id=>id.id == el.id)
-                      
-                      if(!check.length){
-                        orders_notReady.push(el)
-                      }     
+                    if(orders_notReady.length>0){
+                       
+                        let check= orders_notReady.filter(id=>id.id == el.id)
+                        console.log(check)
+                        if(!check.length){
+                          orders_notReady.push(el)
+                       } 
+                         
+                    }
+                    else{
+                        orders_notReady.push(el)   
+                    }
+                 
+                     
                 }
             }
         })
+     
+        console.log( orders_notReady.length)
         res.send({orders_notReady,my_orders})
     }
 catch(err){
