@@ -10,7 +10,7 @@ exports.delivery = async(req,res)=>{
       
    
        let snapshot= await db.collection('cookers').doc(id).get()
-       let cooker = snapshot.data()
+       let cooker = {...snapshot.data(),id:snapshot.id}
      snapshot= await db.collection('users').doc(user_id).get()
      let user= snapshot.data()
   snapshot = await db.collection('orders').doc(order.id).get()
@@ -29,7 +29,7 @@ else{
     },{ merge: true }) 
 }
 
-
+console.log(user,cooker)
  res.send({status:'order been sent and approved by cooker',cooker:cooker,user:user})
    }
    catch(err){
