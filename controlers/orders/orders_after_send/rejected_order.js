@@ -9,29 +9,17 @@ exports.rejected = async(req,res)=>{
     let money=0
     let full_order
     try{
-      
-        let snapshot = await db.collection('orders').doc(id).get()
-        full_order={...snapshot.data(),id:snapshot.id}
-        let rom_message=`הזמנה לא אושרה\n מספר הזמנה: ${id}\n מספר טלפון של הלקוח: ${full_order.phone}\nסיבת הביטול: ${reason}\n `
-        full_order.items.forEach((el,index)=>{
-          if(el.cooker_id == token){
-            rom_message+=` המנה:${el.name} לא אושרה.\n`
-            money+=el.price
-            full_order.items.splice(index,-1)
-          }
-        })
-        rom_message+=`הסכום שצריך להחזיר ללקוח: ${money}`
-         snapshot = await db.collection('orders').doc(id).update({
-            items:full_order.items
-        })
-        await client.messages.create({
-            body:all_resevaition,
-            from: '(952) 260-5618',
-            to:'+972509128880' //'+972509902762'
-              })
-         .then(message => console.log(message.sid));
-        res.send({status:"succes no error possibly changed"})
-        
+      let snapshot = await db.collection('orders').doc(order_id).get()
+      let full_order={...snapshot.data(),id:snapshot.id}
+      full_order.items.forEach(el=>{
+        if(el.cooker_id == token){
+          el.cooker_id= "bikkee8j3raHBlaFUkr3"
+        }
+      })
+      snapshot = await db.collection('orders').doc(order_id).update({
+        items: full_order.items
+          })
+     
     }
     catch(err){
 console.log(err)
