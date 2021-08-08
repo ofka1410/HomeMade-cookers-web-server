@@ -13,7 +13,7 @@ exports.report = async(req,res)=>{
     let orders_current_month=[]
     let counter_meals_month=0
     let counter_allMeals=0
-    if(month !=="" && month.length>1){
+    if(month !==""){
     let monthName = month;
     let monthNumber = new Date(monthName + " 1").getMonth() + 1;
     month=monthNumber;
@@ -22,6 +22,7 @@ exports.report = async(req,res)=>{
         month=''
     }
     try{
+        console.log(month)
         let snapshot = await orders_collection.where("cooker_sent","==", true).get()
         snapshot.forEach(doc => {
             orders.push({items:doc.data().items ,created_at:doc.data().created_at})
