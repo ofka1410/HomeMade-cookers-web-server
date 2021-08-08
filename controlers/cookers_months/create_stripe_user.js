@@ -2,7 +2,6 @@ const db = require('../../db/conection')
 const admin = require('../../admin_firebase')
 require('dotenv').config()
 const axios = require ('axios')
-const { curly } = require('node-libcurl');
 exports.create_card = async(req,res)=>{
    try{
     
@@ -10,7 +9,7 @@ exports.create_card = async(req,res)=>{
  console.log(token)
   await axios.get(`https://api.sandbox.transferwise.tech/v1/profilest`, {
    headers: {
-    "Authorization":`Barear ${token}`
+    "Authorization":`Bearer ${token}`
    }
 }).then((res) => {
    console.log(res.data)
