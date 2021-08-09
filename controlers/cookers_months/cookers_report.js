@@ -45,15 +45,16 @@ exports.report = async(req,res)=>{
                         }
                     }
                     let month_profit= orders_current_month.reduce(function(month_profit, current) {
-                        return month_profit + parseInt(current.price);
+                        return month_profit + parseInt(current.price* current.amount *0.7);
                       }, 0); 
                       month_profit += '₪'
 
                       let total_profit= cooker_orders.reduce(function(total_profit, current) {
-                        return total_profit + parseInt(current.price);
+                        return total_profit + parseInt(current.price* current.amount *0.7);
                       }, 0); 
                       total_profit += '₪'
-            
+                           
+                           
                       res.send({status:'success',orders_current_month,month_profit, month:req.body.month,total_profit,counter_meals_month,counter_allMeals})
             }
             //default report

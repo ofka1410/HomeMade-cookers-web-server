@@ -75,7 +75,7 @@ exports.every_month = async(req,res)=>{
                         for(let z=0;z<all_month.length;z++){
                         if( date == all_month[z].month){
                            console.log(all_month[z].profit)
-                          all_month[z].profit+=parseInt(orders[i].items[j].price) 
+                          all_month[z].profit+=parseInt(orders[i].items[j].price*orders[i].items[j].amount *0.7) 
                     }
                   }
                 }
