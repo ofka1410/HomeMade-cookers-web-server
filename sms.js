@@ -5,7 +5,12 @@ const client = require('twilio')(accountSid, authToken);
 const sent_cooker = require('./controlers/orders/sent_cooker')
 exports.sms= async(data)=>{
     try{
+      let x=data.delivery_time
+      var theDate = new Date(x * 1000)
         let all_resevaition=`  מזל טוב, התקבלה הזמנה חדשה! \n ההזמנה מופיעה במלואה באפליקציה וחובה להכנס ולהזין זמן משלוח !.\n\n` 
+        uniqe_msg+= `: ההזמנה לתאריך ${new Date(theDate).toLocaleString(undefined,{
+          month: "long", day: "numeric", 
+          hour: "numeric", minute:"numeric"})}\n` 
         all_resevaition+='פרטי משלוח:\n'
         all_resevaition+=`שם:${data.full_name ||"לא נשלח שם"}.\nעיר:${data.city ||"לא צוין עיר"}.\nרחוב:${data.address}.\nמספר טלפון:${data.phone||"לא נשלח מספר"}`
         for(let i=0;i<data.items.length;i++){
@@ -23,11 +28,14 @@ exports.sms= async(data)=>{
       
         
       for(let i=0;i<cookers.length;i++){
+   
         let total_price=0
         let uniqe_msg='  מזל טוב, התקבלה הזמנה חדשה! \n ההזמנה מופיעה במלואה באפליקציה וחובה להכנס ולהזין זמן משלוח !.\n\n'
-          
+         uniqe_msg+= `: ההזמנה לתאריך ${new Date(theDate).toLocaleString(undefined,{
+          month: "long", day: "numeric", 
+          hour: "numeric", minute:"numeric"})}\n` 
           for(let j=0;j<data.items.length;j++){
-
+           
             if(data.items[j].cooker_id === cookers[i].id ){
             uniqe_msg += `${[j+1]}.\nשם המנה: ${data.items[j].name}.\nכמות: ${data.items[j].amount}. \nמחיר : ${data.items[j].price}₪.\n\n`
             total_price+=data.items[j].price
@@ -41,7 +49,7 @@ exports.sms= async(data)=>{
             await client.messages.create({
               body:uniqe_msg,
               from:'(952) 260-5618',
-              to:cookers[i].phone_number
+              to:"+972509128880"
                 })
            .then(message => console.log(message.sid));
           }
@@ -50,15 +58,15 @@ exports.sms= async(data)=>{
     await client.messages.create({
         body:all_resevaition,
         from: '(952) 260-5618',
-        to:'+972507915557'
+        to:"+972509128880"
           })
     .then(message => console.log(message.sid));
-     await client.messages.create({
-      body:all_resevaition,
-      from: '(952) 260-5618',
-      to:'+972509902762'
-        })
-   .then(message => console.log(message.sid));
+  //    await client.messages.create({
+  //     body:all_resevaition,
+  //     from: '(952) 260-5618',
+  //     to:'+972509902762'
+  //       })
+  //  .then(message => console.log(message.sid));
     // res.send({cookers,all_resevaition,items:data.items})
   console.log('sms been send')
    snapshot = await db.collection('orders').doc(data.id).update({
