@@ -5,6 +5,7 @@ exports.update_cooker = async(req,res)=>{
     const data= req.body
     const story = db.collection('cookers')
     try{
+        console.log(data.phone_number)
         let snapshot = await cookers.doc(data.id).update({
             address:data.address,
             phone_number:data.phone_number,

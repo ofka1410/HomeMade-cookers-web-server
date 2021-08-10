@@ -8,7 +8,7 @@ exports.sms= async(data)=>{
       let x=data.delivery_time
       var theDate = new Date(x * 1000)
         let all_resevaition=`  מזל טוב, התקבלה הזמנה חדשה! \n ההזמנה מופיעה במלואה באפליקציה וחובה להכנס ולהזין זמן משלוח !.\n\n` 
-        uniqe_msg+= `: ההזמנה לתאריך ${new Date(theDate).toLocaleString(undefined,{
+        all_resevaition+=` ההזמנה לתאריך:${new Date(theDate).toLocaleString(undefined,{
           month: "long", day: "numeric", 
           hour: "numeric", minute:"numeric"})}\n` 
         all_resevaition+='פרטי משלוח:\n'
