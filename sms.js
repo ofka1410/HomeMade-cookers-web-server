@@ -5,8 +5,12 @@ const client = require('twilio')(accountSid, authToken);
 const sent_cooker = require('./controlers/orders/sent_cooker')
 exports.sms= async(data)=>{
     try{
-      let x=data.delivery_time
-      var theDate = new Date(x * 1000)
+      var minutesToAdd=10;
+var currentDate = new Date(data.delivery_time);
+var futureDate = new Date(currentDate.getTime() - minutesToAdd*60000);
+      
+      // let x=data.delivery_time
+       theDate = new Date(futureDate* 1000)
         let all_resevaition=`  מזל טוב, התקבלה הזמנה חדשה! \n ההזמנה מופיעה במלואה באפליקציה וחובה להכנס ולהזין זמן משלוח !.\n\n` 
         all_resevaition+=` ההזמנה לתאריך:${new Date(theDate).toLocaleString(undefined,{
           month: "long", day: "numeric", 
