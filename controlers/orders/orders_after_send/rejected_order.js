@@ -3,11 +3,9 @@ const accountSid = process.env.ACCOUNT_SID;
 const authToken = process.env.AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken);
 exports.rejected = async(req,res)=>{
-    const id= req.body.id
+    const order_id= req.body.order_id
     const token = req.body.token
-    const reason = req.body.reason
     let money=0
-    let full_order
     try{
       let snapshot = await db.collection('orders').doc(order_id).get()
       let full_order={...snapshot.data(),id:snapshot.id}
@@ -19,7 +17,7 @@ exports.rejected = async(req,res)=>{
       snapshot = await db.collection('orders').doc(order_id).update({
         items: full_order.items
           })
-     
+     res.send({status:'הזמנה הועברה לרום'})
     }
     catch(err){
 console.log(err)
