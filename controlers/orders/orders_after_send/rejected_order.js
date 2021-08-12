@@ -1,7 +1,4 @@
 const db = require('../../../db/conection')
-const accountSid = process.env.ACCOUNT_SID;
-const authToken = process.env.AUTH_TOKEN;
-const client = require('twilio')(accountSid, authToken);
 exports.rejected = async(req,res)=>{
     const order_id= req.body.order_id
     const token = req.body.token
