@@ -5,14 +5,14 @@ const client = require('twilio')(accountSid, authToken);
 const sent_cooker = require('./controlers/orders/sent_cooker')
 exports.sms= async(data)=>{
     try{
-      var minutesToAdd=10;
-var currentDate = new Date(data.delivery_time);
-var futureDate = new Date(currentDate.getTime() - minutesToAdd*60000);
+      let x=data.delivery_time
+      var theDate = new Date((x * 1000)-600000 )
+    
       
       // let x=data.delivery_time
        theDate = new Date(futureDate* 1000)
         let all_resevaition=`  מזל טוב, התקבלה הזמנה חדשה!\n\n` 
-        all_resevaition+=` למתי: ${new Date(data.delivery).toLocaleString('en-GB',{ hour: "numeric", minute:"numeric",
+        all_resevaition+=` למתי: ${new Date(theDate).toLocaleString('en-GB',{ hour: "numeric", minute:"numeric",
         month: "long", day: "numeric"
        })}\n` 
         all_resevaition+='פרטי משלוח:\n'
@@ -33,7 +33,7 @@ var futureDate = new Date(currentDate.getTime() - minutesToAdd*60000);
    
         let total_price=0
         let uniqe_msg='  מזל טוב, התקבלה הזמנה חדשה! \n ההזמנה מופיעה במלואה באפליקציה וחובה להכנס ולהזין זמן משלוח !.\n\n'
-         uniqe_msg+= ` למתי: ${new Date(el.delivery).toLocaleString('en-GB',{ hour: "numeric", minute:"numeric",
+         uniqe_msg+= ` למתי: ${new Date(theDate).toLocaleString('en-GB',{ hour: "numeric", minute:"numeric",
          month: "long", day: "numeric"
         })}\n` 
           for(let j=0;j<data.items.length;j++){
