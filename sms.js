@@ -10,7 +10,7 @@ exports.sms= async(data)=>{
     
       
       // let x=data.delivery_time
-       theDate = new Date(futureDate* 1000)
+      
         let all_resevaition=`  מזל טוב, התקבלה הזמנה חדשה!\n\n` 
         all_resevaition+=` למתי: ${new Date(theDate).toLocaleString('en-GB',{ hour: "numeric", minute:"numeric",
         month: "long", day: "numeric"
