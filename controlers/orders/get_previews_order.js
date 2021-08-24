@@ -13,6 +13,7 @@ try{
     let snapshot = await db.collection('orders').where("cooker_sent","==",true).get()
     snapshot.forEach(doc => {
         let date=doc.data().created_at.toDate()
+        
        
         // date= date.
         preview_orders.push({...doc.data(),id:doc.id,date:date})
@@ -34,11 +35,21 @@ try{
              var theDate = new Date((x * 1000)-600000)
             all_orders.push({...doc.data(),id:doc.id,date:date,delivery:theDate})
         });
+        snapshot= await db.collection('cookers').doc(id).get()
+        let current_cooker={...snapshot.data()}
 
         all_orders.forEach(el=>{
             for(let i=0;i<el.items.length;i++){
+                let addedTime = false;
                 if(el.items[i].cooker_id == id && el.items[i].ready == false){
-                    el.items= el.items.filter(el=>el.cooker_id == id)
+                    if(!addedTime){
+                        el.items= el.items.filter(el=>el.cooker_id == id)
+                        const cookerOffset = current_cooker.order_minutes_offset
+                        addedTime = true;
+                        const cookerDate = new Date(el.delivery.getTime() + (-30+(cookerOffset !== null && cookerOffset !== undefined ?  cookerOffset : 20)) * 60000)
+                        el.delivery=cookerDate
+                    }
+                   
                     if(orders_notReady.length>0){
                        
                         let check= orders_notReady.filter(id=>id.id == el.id)
