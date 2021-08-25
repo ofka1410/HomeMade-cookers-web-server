@@ -79,6 +79,7 @@ exports.report = async(req,res)=>{
                  return total_profit + parseInt(current.price);
                }, 0); 
                total_profit += '₪'
+               
      
                //profit from current mounth
      
