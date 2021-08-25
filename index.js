@@ -40,18 +40,18 @@ app.use('/user_history',user_history)
 app.use('/dishes',dishes)
 
 
-const sms= require('./sms')
-db.collection("orders").where("cooker_sent", "==", false)
-    .onSnapshot((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-            console.log(doc.data())
-            if(doc.data()){
-             data={...doc.data(),id:doc.id}
-             sms.sms(data)
-            console.log('new order, check with rom that message has been recived')
-            }
-        });
-    });
+// const sms= require('./sms')
+// db.collection("orders").where("cooker_sent", "==", false)
+//     .onSnapshot((querySnapshot) => {
+//         querySnapshot.forEach((doc) => {
+//             console.log(doc.data())
+//             if(doc.data()){
+//              data={...doc.data(),id:doc.id}
+//              sms.sms(data)
+//             console.log('new order, check with rom that message has been recived')
+//             }
+//         });
+//     });
 
 app.listen(PORT,()=>{
     console.log('listening on port: ' + PORT);
