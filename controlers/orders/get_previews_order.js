@@ -32,7 +32,7 @@ try{
         snapshot.forEach(doc => {
             let date=doc.data().created_at.toDate()
              let x=doc.data().delivery_time
-             var theDate = new Date((x * 1000)-600000)
+             var theDate = new Date((x * 1000))
             all_orders.push({...doc.data(),id:doc.id,date:date,delivery:theDate})
         });
         snapshot= await db.collection('cookers').doc(id).get()
