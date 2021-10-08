@@ -38,7 +38,12 @@ app.use('/orders/delivery',deliveries)
 app.use('/balance',balance)
 app.use('/user_history',user_history)
 app.use('/dishes',dishes)
-
+// app.get('/check_drill',(req,res)=>{
+//     var one = 1;
+//     var one=2;
+//     console.log(one)
+//     res.send('ok')
+// })
 
 // const sms= require('./sms')
 // db.collection("orders").where("cooker_sent", "==", false)

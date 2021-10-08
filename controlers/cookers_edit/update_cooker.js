@@ -11,7 +11,7 @@ exports.update_cooker = async(req,res)=>{
             phone_number:data.phone_number,
             Email:data.email,
             about:data.story,
-             working_hours:data.cooker_working
+            working_hours:data.cooker_working
         })
         
 

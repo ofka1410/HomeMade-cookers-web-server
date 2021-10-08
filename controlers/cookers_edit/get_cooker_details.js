@@ -21,7 +21,7 @@ exports.get_cooker_details = async(req,res)=>{
              story = el.data().story
           }
         })
-        res.send({cooker:doc.data(),story})
+        res.send({cooker:doc.data(),story: doc.data().about})
       }
 }
     catch(err){

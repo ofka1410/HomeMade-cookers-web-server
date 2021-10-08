@@ -6,9 +6,12 @@ exports.create_card = async(req,res)=>{
    try{
     const data= req.body
  const token= process.env.WISE_TOKEN 
- const headers={"Authorization":`Bearer ${token}`}
+ const headers={"Authorization":`Bearer ${token}`,
+  "Accept-Minor-Version": 1
+}
+
  console.log(token)
-  await axios.get(` https://api.transferwise.com/v1/profiles`, {
+  await axios.get(`https://api.transferwise.com/v1/profiles`, {
    headers:headers
 }).then((response) => {
    
@@ -29,6 +32,7 @@ exports.create_card = async(req,res)=>{
        console.log(response.data)
 
        const the_quote=response.data
+      
 
        const transfer_body={
           profile:my_profile[0].id,
@@ -37,27 +41,39 @@ exports.create_card = async(req,res)=>{
          type:"israeli_local",
          details:{
             legalType:"PRIVATE",
-            IBAN:data.iban.trim()
+            IBAN:data.iban.trim(),
+            Country:'israel',
+            City:data.city,
+            Address:data.Address,
+            Email:data.email
          }
        }
-   //     await axios.get(` https://api.transferwise.com/v1/quotes/${the_quote.id}/account-requirements`, {
-   //       headers:headers
-   //    }).then((response) => {
-   //      console.log(data.response)
-   //    }).catch((error) => {
-   //    console.log(error)
-   //    return res.send({
-   //       success:false
-   //    })
-   // })
-         
+       console.log(the_quote.id)
+      //  axios.get(`https://api.transferwise.com/v1/quotes/${the_quote.id}/account-requirements`,
+      //  {headers:headers})
+      //  .then((response)=>{
+      //    console.log(response.data)
+      //    console.log(response.data[0])
+        
+      //  })
+      //  .catch((error) => {
+      //    console.log(error)
+      //    console.log(error.message)
+      //    console.log(`profile id: ${my_profile[0].id}`)
+      //   return res.send({
+      //       success:false
+      //    })
+      // })
        axios.post(' https://api.transferwise.com/v1/accounts',transfer_body, 
        {headers:headers})
        .then((response)=>{
          console.log(response.data)
+        
        })
        .catch((error) => {
          console.log(error)
+         console.log(error.message)
+         console.log(`profile id: ${my_profile[0].id}`)
         return res.send({
             success:false
          })
@@ -92,4 +108,4 @@ res.send({
 
 }
 
-//IL93 0115 1000 0012 7407 199
+//IL930115100000127407199
